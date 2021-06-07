@@ -27,8 +27,9 @@ HarvestTweets = function(geocodee, city, country, searchterm, product, filename)
   tweettext = lapply(tweettext, function(x) iconv(x, "latin1", "ASCII", sub="")) #replace all non-recognized symbols with ''
   tweettext = lapply(tweettext, function(x) gsub("?(f|ht)tp(s?)://(.*)[.][a-z]+","",x)) #remove all URLs (http/ftp/https) gsub()-global substitution
   tweettext = lapply(tweettext, function(x) gsub("[A-Za-z]{1,5}[.][A-Za-z]{2,3}/[A-Za-z0-9]+\\b","",x)) #tiny urls
-  tweettext = lapply(tweettext, function(x) gsub("#","",x))  #remove all hashes  
-  
+  tweettext = lapply(tweettext, function(x) gsub("#","",x))  #remove all hashes 
+  tweettext = lapply(tweettext, function(x) gsub("[\r\n]", " ", x))
+  tweettext = lapply(tweettext, function(x) gsub(",","",x))
   
   #the sentiment lexicon from the working directory:
   
@@ -36,7 +37,7 @@ HarvestTweets = function(geocodee, city, country, searchterm, product, filename)
   negativeLexicon = readLines("opinion-lexicon-English/negative-words.txt")
   
   tweetdate = lapply(tweets, function(x) x$getCreated())
-  tweetdate = sapply(tweetdate, function(x) strftime(x, format="%Y-%m-%d %H-%M-%S", tz="UTC")) #format the dates
+  tweetdate = sapply(tweetdate, function(x) strftime(x, format="%Y-%m-%d %H:%M:%S", tz="UTC")) #format the dates
   isretweet = sapply(tweets, function(x) x$getIsRetweet())
   retweetcount = sapply(tweets, function(x) x$getRetweetCount())
   #likecount = sapply(tweets, function(x) x$getFavouriteCount())
@@ -44,16 +45,19 @@ HarvestTweets = function(geocodee, city, country, searchterm, product, filename)
   dataf = sentimentScoring(tweettext, positiveLexicon, negativeLexicon)
   #print(dataf)
   
-  finaldf = as.data.frame(cbind(tweet=tweettext, date=tweetdate, isretweet=isretweet, retweets=retweetcount, score=dataf$score, product=product, city=city, country=country)) #column bind and create dataframe
+  finaldf = as.data.frame(cbind(Tweet=tweettext, Date=tweetdate, Isretweet=isretweet, Retweets=retweetcount, Score=dataf$score, Product=product, City=city, Country=country)) #column bind and create dataframe
   #remove duplicates
   #finaldf %>% distinct(tweet)
   
-  duplicates = duplicated(finaldf$tweet)
-  finaldf$duplicated = duplicates
-  #print(finaldf)
+  #duplicates = duplicated(finaldf$tweet)
+  duplicates = duplicated(finaldf[,1])
+  finaldf$duplicate = duplicates
+  print(as.matrix(finaldf))
   
   #now create a csv file
-  write.csv(as.matrix(finaldf), filename)
+  write.csv(as.matrix(finaldf), filename, quote = c(1,2))
+  #finaldf <- apply(finaldf,2,as.character)
+  #write.csv(finaldf, file=filename,row.names = FALSE)
 }
 
 sentimentScoring = function(tweets, positiveLexicon, negativeLexicon, .progress="none")
@@ -101,10 +105,8 @@ HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "apple+iphone", "Ap
 HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "apple+iphone", "Apple iPhone", "iphoneLondon.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "samsung+galaxy", "Samsung Galaxy", "galaxyLondon.csv")
-
-HarvestTweets("12.971599,77.594566,240km", "Bengaluru", "India", "apple+iphone", "Apple iPhone", "iphoneDelhi.csv")
-HarvestTweets("12.971599,77.594566,240km", "Bengaluru", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
-
+HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "apple+iphone", "Apple iPhone", "iphoneToronto.csv")
+HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "samsung+galaxy", "Samsung Galaxy", "galaxyToronto.csv")
 
 #tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Toronto
 #tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Delhi
