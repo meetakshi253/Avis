@@ -21,12 +21,12 @@ Text Mining and Sentiment Analysis
 <ul>
 <li> Import csv to Tableau
 <li> Visualize (Screenshots in "Images")
-<\ul> 
+</ul> 
   
  <strong> Issues </strong> <br>
   <ul>
 <li> Limited dataset because of Twitter's 14 days only scraping policy, therefore bias is possible.
 <li> Text cleaning process may have removed keywords.
   <li> Does't accurately score questions, cynical and sarcastic tweets.
-<\ul> 
+</ul> 
 
