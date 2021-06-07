@@ -8,10 +8,10 @@ library(dplyr)
 
 ##From the Twitter Developers account
 
-key = "uVUrPVgppvaJcembajqnCZevS"
-secret = "64JBfqZhdHrJscnFqhPGcwDzDsOx4rJuDyoG9O09dpMJTRE1ck"
-atoken = "1400938977532600325-GZBLFQM2FVIajWvIntpz5ElVKfk8FV"
-asecret = "KpKFFQp6xVSeVNGfLBY2eoN13gke8MNvnzW8252lXov70"
+key = "...."
+secret = "...."
+atoken = "...."
+asecret = "...."
 
 setup_twitter_oauth(key, secret, atoken, asecret)
 
