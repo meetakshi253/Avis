@@ -15,48 +15,46 @@ asecret = "KpKFFQp6xVSeVNGfLBY2eoN13gke8MNvnzW8252lXov70"
 
 setup_twitter_oauth(key, secret, atoken, asecret)
 
-#searchTwitter("Samsung+Galaxy", from="user:name" n=2000, lan="en", until="YYYY-MM-DD", since="YYYY-MM-DD", geocode="latitude, longitude, radius", resultType="recent/popular/null(without quotes, mix of both)"); cannot exceed 14 days
-
-tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = "34.1,-118.2,250km") #LA
-
-tweettext = sapply(tweets, function(tweets) tweets$getText())  #extract tweet text from the status class object "tweets".
-
-#text cleaning
-
-#1. convert from latin1 to ascii
-
-tweettext = lapply(tweettext, function(x) iconv(x, "latin1", "ASCII", sub="")) #replace all non-recognized symbols with ''
-tweettext = lapply(tweettext, function(x) gsub("?(f|ht)tp(s?)://(.*)[.][a-z]+","",x)) #remove all URLs (http/ftp/https) gsub()-global substitution
-tweettext = lapply(tweettext, function(x) gsub("[A-Za-z]{1,5}[.][A-Za-z]{2,3}/[A-Za-z0-9]+\\b","",x)) #tiny urls
-tweettext = lapply(tweettext, function(x) gsub("#","",x))  #remove all hashes  
-
-#str = "Just bought a new apple iphone! check out http://www.apple.in and grab one 2day!"
-#str = gsub("?(f|ht)tp(s?)://(.*)[.][a-z]+","",str)
-
-#the sentiment lexicon from the working directory:
-
-positiveLexicon = readLines("opinion-lexicon-English/positive-words.txt")
-negativeLexicon = readLines("opinion-lexicon-English/negative-words.txt")
-
-tweetdate = lapply(tweets, function(x) x$getCreated())
-tweetdate = sapply(tweetdate, function(x) strftime(x, format="%Y-%m-%d %H-%M-%S", tz="UTC")) #format the dates
-isretweet = sapply(tweets, function(x) x$getIsRetweet())
-retweetcount = sapply(tweets, function(x) x$getRetweetCount())
-#likecount = sapply(tweets, function(x) x$getFavouriteCount())
-
-dataf = sentimentScoring(tweettext, positiveLexicon, negativeLexicon)
-print(dataf)
-
-finaldf = as.data.frame(cbind(tweet=tweettext, date=tweetdate, isretweet=isretweet, retweets=retweetcount, score=dataf$score, product="Apple iPhone", city="LA", country="USA")) #column bind and create dataframe
-#remove duplicates
-#finaldf %>% distinct(tweet)
-
-duplicates = duplicated(finaldf$tweet)
-finaldf$duplicated = duplicates
-#print(finaldf)
-
-#now create a csv file
-write.csv(as.matrix(finaldf), "iphone_LA.csv")
+HarvestTweets = function(geocodee, city, country, searchterm, product, filename)
+{
+  
+  tweets = searchTwitter(searchterm, n=2000, lan="en", geocode = geocodee)
+  
+  tweettext = sapply(tweets, function(tweets) tweets$getText())  #extract tweet text from the status class object "tweets".
+  
+  #text cleaning
+  
+  tweettext = lapply(tweettext, function(x) iconv(x, "latin1", "ASCII", sub="")) #replace all non-recognized symbols with ''
+  tweettext = lapply(tweettext, function(x) gsub("?(f|ht)tp(s?)://(.*)[.][a-z]+","",x)) #remove all URLs (http/ftp/https) gsub()-global substitution
+  tweettext = lapply(tweettext, function(x) gsub("[A-Za-z]{1,5}[.][A-Za-z]{2,3}/[A-Za-z0-9]+\\b","",x)) #tiny urls
+  tweettext = lapply(tweettext, function(x) gsub("#","",x))  #remove all hashes  
+  
+  
+  #the sentiment lexicon from the working directory:
+  
+  positiveLexicon = readLines("opinion-lexicon-English/positive-words.txt")
+  negativeLexicon = readLines("opinion-lexicon-English/negative-words.txt")
+  
+  tweetdate = lapply(tweets, function(x) x$getCreated())
+  tweetdate = sapply(tweetdate, function(x) strftime(x, format="%Y-%m-%d %H-%M-%S", tz="UTC")) #format the dates
+  isretweet = sapply(tweets, function(x) x$getIsRetweet())
+  retweetcount = sapply(tweets, function(x) x$getRetweetCount())
+  #likecount = sapply(tweets, function(x) x$getFavouriteCount())
+  
+  dataf = sentimentScoring(tweettext, positiveLexicon, negativeLexicon)
+  #print(dataf)
+  
+  finaldf = as.data.frame(cbind(tweet=tweettext, date=tweetdate, isretweet=isretweet, retweets=retweetcount, score=dataf$score, product=product, city=city, country=country)) #column bind and create dataframe
+  #remove duplicates
+  #finaldf %>% distinct(tweet)
+  
+  duplicates = duplicated(finaldf$tweet)
+  finaldf$duplicated = duplicates
+  #print(finaldf)
+  
+  #now create a csv file
+  write.csv(as.matrix(finaldf), filename)
+}
 
 sentimentScoring = function(tweets, positiveLexicon, negativeLexicon, .progress="none")
 {
@@ -95,7 +93,26 @@ convertToLowerCase = function(tweet)    #since there can be many unrecognised ch
 }
 
 
+HarvestTweets("34.1,-118.2,240km", "LA", "USA", "apple+iphone", "Apple iPhone", "iphoneLA.csv")
+HarvestTweets("34.1,-118.2,240km", "LA", "USA", "samsung+galaxy", "Samsung Galaxy", "galaxyLA.csv")
+HarvestTweets("40.712776,-74.005974,240km", "NYC", "USA", "apple+iphone", "Apple iPhone", "iphoneNY.csv")
+HarvestTweets("40.712776,-74.005974,240km", "NYC", "USA", "samsung+galaxy", "Samsung Galaxy", "galaxyNY.csv")
+HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "apple+iphone", "Apple iPhone", "iphoneDelhi.csv")
+HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
+HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "apple+iphone", "Apple iPhone", "iphoneLondon.csv")
+HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "samsung+galaxy", "Samsung Galaxy", "galaxyLondon.csv")
 
+HarvestTweets("12.971599,77.594566,240km", "Bengaluru", "India", "apple+iphone", "Apple iPhone", "iphoneDelhi.csv")
+HarvestTweets("12.971599,77.594566,240km", "Bengaluru", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
+
+
+#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Toronto
+#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Delhi
+#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = "51.507351,-0.127758,240km") #London
+#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "34.1,-118.2,240km") #LA
+#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "43.653225,-79.383186.2,240km") #Toronto
+#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "28.704060,77.102493,240km") #Delhi
+#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "51.507351,-0.127758,240km") #London
 
 
 
