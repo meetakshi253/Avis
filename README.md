@@ -23,6 +23,8 @@ Text Mining and Sentiment Analysis
 <li> Visualize (Screenshots in "Images")
 </ul> 
   
+  <hr>
+  <hr>
  <strong> Issues </strong> <br>
   <ul>
 <li> Limited dataset because of Twitter's 14 days only scraping policy, therefore bias is possible.
