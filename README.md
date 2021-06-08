@@ -30,4 +30,4 @@
   <li> Does't accurately score questions, cynical and sarcastic tweets.
 </ul> 
 
-Sentiment Lexicon via: * [Minqing Hu and Bing Liu. "Mining and Summarizing Customer Reviews."  Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004), Aug 22-25, 2004, Seattle, Washington, USA](https://dl.acm.org/doi/10.1145/1014052.1014073)*
+Sentiment Lexicon via: *[Minqing Hu and Bing Liu. "Mining and Summarizing Customer Reviews."  Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004), Aug 22-25, 2004, Seattle, Washington, USA](https://dl.acm.org/doi/10.1145/1014052.1014073)*
