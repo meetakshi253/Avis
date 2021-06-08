@@ -1,9 +1,9 @@
 # Avis
-Text Mining and Sentiment Analysis
+<ins> Text Mining and Sentiment Analysis </ins>
 
-*Harvest tweets from Twitter for Samsung Galaxy and Apple iPhone from four cities-- London, Los Angeles, Delhi and New York. Perform opinion scoring and make stastical inferences.*
+### *Harvest tweets from Twitter for Samsung Galaxy and Apple iPhone from four cities-- London, Los Angeles, Delhi and New York. Perform opinion scoring and make stastical inferences.*
 
-<strong> R </strong> <br>
+### R <br>
 <ul>
 <li> Using OAuth for R-Twitter Handshake
 <li> Scraping twitter using searchTwitter() in the twitteR package.
@@ -17,7 +17,7 @@ Text Mining and Sentiment Analysis
   
   
 <br>
-<strong> Tableau </strong> <br>
+### Tableau <br>
 <ul>
 <li> Import csv to Tableau
 <li> Visualize (Screenshots in "Images")
@@ -32,3 +32,4 @@ Text Mining and Sentiment Analysis
   <li> Does't accurately score questions, cynical and sarcastic tweets.
 </ul> 
 
+Sentiment Lexicon via Minqing Hu and Bing Liu. "Mining and Summarizing Customer Reviews."  Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004), Aug 22-25, 2004, Seattle, Washington, USA[https://dl.acm.org/doi/10.1145/1014052.1014073]
