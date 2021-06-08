@@ -15,8 +15,6 @@
 <li> Format the dataframe and export it as a csv.
   </ul>
   
-  
-<br>
 ### Tableau <br>
 <ul>
 <li> Import csv to Tableau
@@ -25,11 +23,11 @@
   
   <hr>
   <hr>
- <strong> Issues </strong> <br>
+ <strong> Issues with the current implementation </strong> <br>
   <ul>
 <li> Limited dataset because of Twitter's 14 days only scraping policy, therefore bias is possible.
 <li> Text cleaning process may have removed keywords.
   <li> Does't accurately score questions, cynical and sarcastic tweets.
 </ul> 
 
-Sentiment Lexicon via Minqing Hu and Bing Liu. "Mining and Summarizing Customer Reviews."  Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004), Aug 22-25, 2004, Seattle, Washington, USA[https://dl.acm.org/doi/10.1145/1014052.1014073]
+Sentiment Lexicon via: *Minqing Hu and Bing Liu. "Mining and Summarizing Customer Reviews."  Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD-2004), Aug 22-25, 2004, Seattle, Washington, USA[https://dl.acm.org/doi/10.1145/1014052.1014073]*
