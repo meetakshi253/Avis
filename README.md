@@ -1,7 +1,7 @@
 # Avis
 <ins> Text Mining and Sentiment Analysis </ins>
 
-### *Harvest tweets from Twitter for Samsung Galaxy and Apple iPhone from four cities-- London, Los Angeles, Delhi and New York. Perform opinion scoring and make stastical inferences.*
+##### *Harvest tweets from Twitter for Samsung Galaxy and Apple iPhone from four cities-- London, Los Angeles, Delhi and New York. Perform opinion scoring and make stastical inferences.*
 
 ### R <br>
 <ul>
