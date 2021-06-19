@@ -105,8 +105,8 @@ HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "apple+iphone", "Ap
 HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "apple+iphone", "Apple iPhone", "iphoneLondon.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "samsung+galaxy", "Samsung Galaxy", "galaxyLondon.csv")
-HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "apple+iphone", "Apple iPhone", "iphoneToronto.csv")
-HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "samsung+galaxy", "Samsung Galaxy", "galaxyToronto.csv")
+#HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "apple+iphone", "Apple iPhone", "iphoneToronto.csv")
+#HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "samsung+galaxy", "Samsung Galaxy", "galaxyToronto.csv")
 
 #tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Toronto
 #tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Delhi
