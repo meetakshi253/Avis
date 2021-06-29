@@ -40,24 +40,18 @@ HarvestTweets = function(geocodee, city, country, searchterm, product, filename)
   tweetdate = sapply(tweetdate, function(x) strftime(x, format="%Y-%m-%d %H:%M:%S", tz="UTC")) #format the dates
   isretweet = sapply(tweets, function(x) x$getIsRetweet())
   retweetcount = sapply(tweets, function(x) x$getRetweetCount())
-  #likecount = sapply(tweets, function(x) x$getFavouriteCount())
   
   dataf = sentimentScoring(tweettext, positiveLexicon, negativeLexicon)
-  #print(dataf)
   
   finaldf = as.data.frame(cbind(Tweet=tweettext, Date=tweetdate, Isretweet=isretweet, Retweets=retweetcount, Score=dataf$score, Product=product, City=city, Country=country)) #column bind and create dataframe
   #remove duplicates
-  #finaldf %>% distinct(tweet)
   
-  #duplicates = duplicated(finaldf$tweet)
   duplicates = duplicated(finaldf[,1])
   finaldf$duplicate = duplicates
   print(as.matrix(finaldf))
   
   #now create a csv file
   write.csv(as.matrix(finaldf), filename, quote = c(1,2))
-  #finaldf <- apply(finaldf,2,as.character)
-  #write.csv(finaldf, file=filename,row.names = FALSE)
 }
 
 sentimentScoring = function(tweets, positiveLexicon, negativeLexicon, .progress="none")
@@ -65,7 +59,6 @@ sentimentScoring = function(tweets, positiveLexicon, negativeLexicon, .progress=
   tweetscore = laply(tweets, function(tweet, positiveLexicon, negativeLexicon) 
     {
     tweet = gsub("[[:cntrl:]]", "", tweet)  #remove control chr
-    #tweet = gsub("[^[:alnum:]]", "",tweet)  
     tweet = gsub("//d", "",tweet) 
     tweet = gsub("[[:punct:]]","", tweet)   #remove punctuation
     tweet = convertToLowerCase(tweet)
@@ -85,7 +78,7 @@ sentimentScoring = function(tweets, positiveLexicon, negativeLexicon, .progress=
   return(sentimentscores.df)
 }
 
-convertToLowerCase = function(tweet)    #since there can be many unrecognised characters, we needed try catch to ensure theek se conversion
+convertToLowerCase = function(tweet)    #since there can be many unrecognised characters, we needed try catch to ensure exception-free conversion
 {
   lo = NA
   trye = tryCatch(tolower(tweet), error=function(e)e)
@@ -105,16 +98,6 @@ HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "apple+iphone", "Ap
 HarvestTweets("28.704060,77.102493,240km", "Delhi", "India", "samsung+galaxy", "Samsung Galaxy", "galaxyDelhi.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "apple+iphone", "Apple iPhone", "iphoneLondon.csv")
 HarvestTweets("51.507351,-0.127758,240km", "London", "UK", "samsung+galaxy", "Samsung Galaxy", "galaxyLondon.csv")
-#HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "apple+iphone", "Apple iPhone", "iphoneToronto.csv")
-#HarvestTweets("43.653225,-79.383186,240km", "Toronto", "Canada", "samsung+galaxy", "Samsung Galaxy", "galaxyToronto.csv")
-
-#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Toronto
-#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = ) #Delhi
-#tweets = searchTwitter("apple+iphone", n=2000, lan="en", geocode = "51.507351,-0.127758,240km") #London
-#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "34.1,-118.2,240km") #LA
-#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "43.653225,-79.383186.2,240km") #Toronto
-#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "28.704060,77.102493,240km") #Delhi
-#tweets = searchTwitter("samsung+galaxy", n=2000, lan="en", geocode = "51.507351,-0.127758,240km") #London
 
 
 
